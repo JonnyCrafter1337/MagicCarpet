@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MagicCarpet">
+    <output-path>$USER_HOME$/Documents/SpigotServer/1.16.5/plugins</output-path>
+    <root id="archive" name="MagicCarpet.jar">
+      <element id="module-output" name="MagicCarpet" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>

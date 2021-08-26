@@ -1,0 +1,8 @@
+name: MagicCarpetForLazer
+version: 0.1
+main: MagicCarpetMain
+prefix: MC
+commands:
+  mc:
+    description: Turn the magic carpet on or off
+    usage: /mc <on|off>
