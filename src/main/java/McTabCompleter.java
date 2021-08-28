@@ -10,7 +10,7 @@ public class McTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if( command.getName().equalsIgnoreCase("mc") && strings.length == 1){
-            return Arrays.asList("on", "off, debug");
+            return Arrays.asList("on", "off", "debug");
         }
         return null;
     }
