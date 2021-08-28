@@ -58,11 +58,12 @@ public class PlaceCarpet {
             for (int x = -2; x <= 2; x++) {
 
                 for (int z = -2; z <= 2; z++) {
-                    if (x == -2 || x == 2 || y == -1 || player.isSneaking()) {
+                    if (x == -2 || x == 2 || y == -1 || player.isSneaking()){
                         player.setFallDistance(-10);
                         Location here = new Location(world, coordX + x, coordY + y, coordZ + z);
                         if (getLocationPlaced(here) == player && here.getBlock().getType() == Material.CYAN_CARPET) {
                             here.getBlock().setType(Material.AIR, false);
+                            delLocationPlaced(here);
 
                         }
 
@@ -75,6 +76,7 @@ public class PlaceCarpet {
                         Location here = new Location(world, coordX + x, coordY +y, coordZ + z);
                         if (getLocationPlaced(here) == player && here.getBlock().getType() == Material.CYAN_CARPET) {
                             here.getBlock().setType(Material.AIR, false);
+                            delLocationPlaced(here);
 
                         }
                     }
@@ -84,24 +86,42 @@ public class PlaceCarpet {
     }
 
     public static void stopCarpeting(Player sender) {
+        CommandMc.delIsCarpeting(sender);
         Location here = sender.getLocation();
-        World world = here.getWorld();
-        int coordX = here.getBlockX();
-        int coordZ = here.getBlockZ();
-        int coordY = here.getBlockY();
+        removeBlocksEvent(sender, here);
+    }
+
+    public static void removeBlocksEvent(Player player, Location l){
+
+        World world = l.getWorld();
+        int coordX = l.getBlockX();
+        int coordZ = l.getBlockZ();
+        int coordY = l.getBlockY();
 
         for (int x = -2; x <= 2; x++) {
             for (int z = -2; z <= 2; z++) {
                 for (int y = -2; y <= 2; y++) {
                     Location there = new Location(world, coordX + x, coordY +y, coordZ + z);
 
-                    if (getLocationPlaced(there) == sender && there.getBlock().getType() == Material.CYAN_CARPET) {
+                    if (getLocationPlaced(there) == player && there.getBlock().getType() == Material.CYAN_CARPET) {
                         there.getBlock().setType(Material.AIR, false);
+                        delLocationPlaced(there);
 
 
-                }
+                    }
                 }
             }
+        }
+
+
+    }
+
+    public static void debug(Player sender) {
+        Bukkit.getLogger().info(String.valueOf("Size placedHere:" + placedHere.size()));
+        sender.sendMessage("Size placedHere: " + placedHere.size());
+        if (CommandMc.isCarpetingSize() > placedHere.size() * 9 ){
+            sender.sendMessage("Memory is leaking... But where?");
+
         }
     }
 }

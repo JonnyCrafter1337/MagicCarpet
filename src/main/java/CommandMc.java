@@ -1,3 +1,4 @@
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,11 +30,15 @@ public class CommandMc implements CommandExecutor {
                 return true;
             }
             if(args[0].equals("off")){
-                delIsCarpeting(sender);
+
                 PlaceCarpet.stopCarpeting(sender);
                 return true;
             }else if(args[0].equals("on")){
                 addIsCarpeting(sender);
+            }else if(args[0].equals("debug")){
+                Bukkit.getLogger().info("isCarpeting" + String.valueOf(isCarpeting.entrySet()));
+                sender.sendMessage("isCarpeting" + String.valueOf(isCarpeting.entrySet()));
+                PlaceCarpet.debug(sender);
             }else{
                 sender.sendMessage("Please select on or off");
                 return true;
@@ -48,11 +53,13 @@ public class CommandMc implements CommandExecutor {
     public static void addIsCarpeting(Player p) {
         isCarpeting.put(p, true);
     }
-
     public static void delIsCarpeting(Player p) {
         isCarpeting.remove(p);
     }
     public static Boolean getIsCarpeting(Player p){
         return isCarpeting.get(p);
+    }
+    public static Integer isCarpetingSize(){
+        return isCarpeting.size();
     }
 }
