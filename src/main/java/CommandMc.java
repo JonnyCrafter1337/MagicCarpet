@@ -9,7 +9,13 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class CommandMc implements CommandExecutor {
-    private static HashMap<Player, Boolean> isCarpeting = new HashMap<Player, Boolean>();
+    private final MagicCarpetMain plugin;
+
+    public CommandMc(MagicCarpetMain plugin){
+          this.plugin = plugin;
+    }
+    private static final HashMap<Player, Boolean> isCarpeting = new HashMap<Player, Boolean>();
+
 
 
     @Override
@@ -30,15 +36,17 @@ public class CommandMc implements CommandExecutor {
                 return true;
             }
             if(args[0].equals("off")){
+                if(plugin.getListener().hasCarpet.containsKey(sender)){
+                    plugin.getListener().hasCarpet.get(sender).stopCarpeting(sender);
 
-                PlaceCarpet.stopCarpeting(sender);
+                }
                 return true;
             }else if(args[0].equals("on")){
                 addIsCarpeting(sender);
             }else if(args[0].equals("debug")){
-                Bukkit.getLogger().info("isCarpeting" + String.valueOf(isCarpeting.entrySet()));
-                sender.sendMessage("isCarpeting" + String.valueOf(isCarpeting.entrySet()));
-                PlaceCarpet.debug(sender);
+                Bukkit.getLogger().info("isCarpeting" + isCarpeting.entrySet());
+                sender.sendMessage("isCarpeting" + isCarpeting.entrySet());
+                plugin.getListener().hasCarpet.get(sender).debug(sender);
             }else{
                 sender.sendMessage("Please select on or off");
                 return true;

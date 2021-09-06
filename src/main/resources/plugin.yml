@@ -1,5 +1,5 @@
 name: MagicCarpetForLazer
-version: 0.1
+version: 1.0
 main: MagicCarpetMain
 prefix: MC
 commands:
