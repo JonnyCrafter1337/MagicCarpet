@@ -50,29 +50,20 @@ public class GameListener implements Listener {
     private void onBreakBlock(BlockBreakEvent e) {
         for (Entity entity: e.getPlayer().getNearbyEntities(5.0,5.0,5.0)){
             if(entity instanceof Player && hasCarpet.containsKey(entity)){
-                for (int y = -1; y <= 1; y++) {
-                    for (int x = -1; x <= 1; x++) {
-                        for (int z = -1; z <= 1; z++) {
-                            if (hasCarpet.get(entity).getLocationPlaced(e.getBlock().getLocation().add(x, y, z))) {
+
+                            if (hasCarpet.get(entity).getLocationPlaced(e.getBlock().getLocation())) {
                                 e.setCancelled(true);
-                            }
-                        }
-                    }
                 }
 
             }
         }
         if (hasCarpet.containsKey(e.getPlayer())) {
 
-            for (int y = -1; y <= 1; y++) {
-                for (int x = -1; x <= 1; x++) {
-                    for (int z = -1; z <= 1; z++) {
-                        if (hasCarpet.get(e.getPlayer()).getLocationPlaced(e.getBlock().getLocation().add(x, y, z))) {
+
+                        if (hasCarpet.get(e.getPlayer()).getLocationPlaced(e.getBlock().getLocation())) {
                             e.setCancelled(true);
+
                         }
-                    }
-                }
-            }
             Location loc = e.getPlayer().getLocation();
             e.getPlayer().setGravity(false);
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -108,28 +99,16 @@ public class GameListener implements Listener {
     private void onPlaceBlock(BlockPlaceEvent e) {
         for (Entity entity: e.getPlayer().getNearbyEntities(5.0,5.0,5.0)){
             if(entity instanceof Player && hasCarpet.containsKey(entity)){
-                for (int y = -1; y <= 1; y++) {
-                    for (int x = -1; x <= 1; x++) {
-                        for (int z = -1; z <= 1; z++) {
-                            if (hasCarpet.get(entity).getLocationPlaced(e.getBlock().getLocation().add(x, y, z))) {
+                            if (hasCarpet.get(entity).getLocationPlaced(e.getBlock().getLocation())) {
                                 e.setCancelled(true);
                             }
-                        }
-                    }
-                }
 
             }
         }
         if (hasCarpet.containsKey(e.getPlayer())) {
 
-            for (int y = -1; y <= 1; y++) {
-                for (int x = -1; x <= 1; x++) {
-                    for (int z = -1; z <= 1; z++) {
-                        if (hasCarpet.get(e.getPlayer()).getLocationPlaced(e.getBlock().getLocation().add(x, y, z))) {
+                        if (hasCarpet.get(e.getPlayer()).getLocationPlaced(e.getBlock().getLocation())) {
                             e.setCancelled(true);
-                        }
-                    }
-                }
             }
         }
 
