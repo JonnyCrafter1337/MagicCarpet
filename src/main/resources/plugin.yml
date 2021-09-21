@@ -6,3 +6,4 @@ commands:
   mc:
     description: Turn the magic carpet on or off
     usage: /mc <on|off>
+api-version: 1.16

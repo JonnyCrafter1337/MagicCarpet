@@ -38,6 +38,7 @@ public class CommandMc implements CommandExecutor {
             if(args[0].equals("off")){
                 if(plugin.getListener().hasCarpet.containsKey(sender)){
                     plugin.getListener().hasCarpet.get(sender).stopCarpeting(sender);
+                    plugin.getListener().hasCarpet.remove(sender);
 
                 }
                 return true;

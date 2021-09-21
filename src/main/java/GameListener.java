@@ -9,14 +9,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GameListener implements Listener {
 
@@ -31,6 +28,42 @@ public class GameListener implements Listener {
     public final Map<Player, ObjectifiedPlaceCarpet> hasCarpet = new HashMap<Player, ObjectifiedPlaceCarpet>();
     private final MagicCarpetMain plugin;
 
+
+    @EventHandler
+    private void onDamageBlock(BlockDamageEvent e) {
+        Player player = e.getPlayer();
+        Location loc = e.getBlock().getLocation();
+        HashMap<Integer, ? extends ItemStack> isInInv = new HashMap<Integer, ItemStack>();
+        boolean addedSuccess = false;
+        if (player.getInventory().firstEmpty() == -1) {
+
+            if (e.getPlayer().getInventory().contains(e.getBlock().getType())) {
+
+                isInInv = e.getPlayer().getInventory().all(e.getBlock().getType());
+                for (Map.Entry<Integer, ? extends ItemStack> entry : isInInv.entrySet())
+                    if (entry.getValue().getAmount() < entry.getValue().getType().getMaxStackSize()) {
+                        int newAmmount = entry.getValue().getAmount() + 1;
+                        entry.getValue().setAmount(newAmmount);
+                        e.getBlock().setType(Material.AIR);
+
+                        addedSuccess = true;
+                        break;
+                    }
+
+            }
+
+
+        }else {
+            ItemStack newItemStack = new ItemStack(e.getBlock().getType());
+            e.getPlayer().getInventory().addItem(newItemStack);
+            e.getBlock().setType(Material.AIR);
+            addedSuccess = true;
+        }
+        e.setCancelled(true);
+        if (!addedSuccess){
+            e.getPlayer().sendMessage("You dont have space in your inventory");
+        }
+    }
 
 
     @EventHandler
@@ -120,6 +153,7 @@ public class GameListener implements Listener {
             CommandMc.delIsCarpeting(e.getPlayer());
             hasCarpet.get(e.getPlayer()).stopCarpeting(e.getPlayer());
         }
+        Bukkit.getLogger().info("Gamemode was changed");
     }
 
     @EventHandler
